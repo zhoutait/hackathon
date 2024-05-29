@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+/* eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4 */
 body{
     background: url("./images/baby.jpg");
     background-repeat: no-repeat;
@@ -81,4 +82,30 @@ nav img{
 .movieHolder > h4{
     margin: 14px auto;
     text-align: center;
+}
+
+.pagination{
+    display:flex;
+    margin:10px 30px;
+    align-items: center;
+    justify-content: center;
+    color:white;
+}
+
+.page{
+    padding:20px;
+    cursor:pointer;
+}
+
+.page.disabled{
+    cursor:not-allowed;
+    color:grey;
+}
+
+.current{
+    padding: 10px 20px;
+    border-radius: 50%;
+    border: 5px solid yellow;
+    font-size: 20px;
+    font-weight: 600;
 }
