@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body> 
+    
+    <div id="myDiv">
+        
+    </div>
+
+    <script>
+        function getThisMovie(p){
+            const theURL = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page="+p+"&sort_by=popularity.desc"
+            const baseURL = "https://image.tmdb.org/t/p/w500/"
+            
+            const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                // Authorization: '558219ab32e1c694714e787817ab8d92'
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4'
+            }
+            };
+
+            fetch(theURL, options)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.results)
+
+                res.results.map(mappedDataRes => {
+                    var myImage = mappedDataRes.poster_path
+                    var myTitle = mappedDataRes.title
+
+                    document.getElementById("myDiv").innerHTML += `<div class="movieHolder">
+                <img src="https://image.tmdb.org/t/p/original/${myImage}" alt="">
+                <h4>${myTitle}</h4>
+            </div>`
+
+                })
+            })
+        }
+
+    
+        getThisMovie(Math.floor(Math.random()*20))
+
+        
+    </script>
+</body>
+</html>

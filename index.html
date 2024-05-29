@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <img src="./images/logo.webp" />
+        </li>
+      </ul>
+      <ul>
+        <li>Home</li>
+        <li onclick="getRandomMovie(Math.floor(Math.random()*20))">Discover</li>
+        <li onclick="getTopMovie()">Top Rated</li>
+        <li onclick="getLatestMovie()">Newest</li>
+        <li onclick="getUpcomingMovie()">Upcoming</li>
+      </ul>
+    </nav>
+
+    <div id="inputHolder">
+      <div>
+        <input type="text" placeholder="Search" id="myMovieSearch" />
+      </div>
+    </div>
+
+    <div id="myDiv"></div>
+    <script>
+      document
+        .getElementById("myMovieSearch")
+        .addEventListener("keydown", function (e) {
+          if (e.key == "Enter") {
+            document.getElementById("myDiv").innerHTML = "";
+            var myInput = document.getElementById("myMovieSearch").value;
+            getThisMovie(myInput);
+          }
+        });
+
+      function getThisMovie(q) {
+        const theURL =
+          "https://api.themoviedb.org/3/search/movie?query=" +
+          q +
+          "&include_adult=false&language=en-US&page=1&sort_by=vote_average.desc";
+        const baseURL = "https://image.tmdb.org/t/p/w500/";
+
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            // Authorization: '558219ab32e1c694714e787817ab8d92'
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4",
+          },
+        };
+
+        fetch(theURL, options)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res.total_pages);
+
+            res.results.map((mappedDataRes) => {
+              var myImage = mappedDataRes.poster_path;
+              var myTitle = mappedDataRes.title;
+
+              var myVote = mappedDataRes.vote_average;
+
+              document.getElementById(
+                "myDiv"
+              ).innerHTML += `<div class="movieHolder">
+                <img src="https://image.tmdb.org/t/p/original/${myImage}" alt="">
+                <h4>${myTitle}</h4>
+                <span>${myVote}</span>
+            </div>`;
+            });
+          });
+      }
+
+      function getRandomMovie(p) {
+        document.getElementById("myDiv").innerHTML = "";
+        const theURL =
+          "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=" +
+          p +
+          "&sort_by=popularity.desc";
+        const baseURL = "https://image.tmdb.org/t/p/w500/";
+
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            // Authorization: '558219ab32e1c694714e787817ab8d92'
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4",
+          },
+        };
+
+        fetch(theURL, options)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res.results);
+
+            res.results.map((mappedDataRes) => {
+              var myImage = mappedDataRes.poster_path;
+              var myTitle = mappedDataRes.title;
+              var myVote = mappedDataRes.vote_average;
+
+              document.getElementById(
+                "myDiv"
+              ).innerHTML += `<div class="movieHolder">
+                <img src="https://image.tmdb.org/t/p/original/${myImage}" alt="">
+                <h4>${myTitle}</h4>
+                <span>${myVote}</span>
+            </div>`;
+            });
+          });
+      }
+
+      function getTopMovie() {
+        document.getElementById("myDiv").innerHTML = "";
+        const theURL =
+          "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200";
+        const baseURL = "https://image.tmdb.org/t/p/w500/";
+
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            // Authorization: '558219ab32e1c694714e787817ab8d92'
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4",
+          },
+        };
+
+        fetch(theURL, options)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+
+            res.results.map((mappedDataRes) => {
+              var myImage = mappedDataRes.poster_path;
+              var myTitle = mappedDataRes.title;
+              var myVote = mappedDataRes.vote_average;
+
+              document.getElementById(
+                "myDiv"
+              ).innerHTML += `<div class="movieHolder">
+                <img src="https://image.tmdb.org/t/p/original/${myImage}" alt="">
+                <h4>${myTitle}</h4>
+                <span>${myVote}</span>
+            </div>`;
+            });
+          });
+      }
+
+      function getLatestMovie() {
+        document.getElementById("myDiv").innerHTML = "";
+        const theURL =
+          "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
+        const baseURL = "https://image.tmdb.org/t/p/w500/";
+
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            // Authorization: '558219ab32e1c694714e787817ab8d92'
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4",
+          },
+        };
+
+        fetch(theURL, options)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res.results);
+
+            res.results.map((mappedDataRes) => {
+              var myImage = mappedDataRes.poster_path;
+              var myTitle = mappedDataRes.title;
+              var myVote = mappedDataRes.vote_average;
+
+              document.getElementById(
+                "myDiv"
+              ).innerHTML += `<div class="movieHolder">
+                <img src="https://image.tmdb.org/t/p/original/${myImage}" alt="">
+                <h4>${myTitle}</h4>
+                <span>${myVote}</span>
+            </div>`;
+            });
+          });
+      }
+
+      function getUpcomingMovie() {
+        document.getElementById("myDiv").innerHTML = "";
+        const theURL =
+          "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1";
+        const baseURL = "https://image.tmdb.org/t/p/w500/";
+
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            // Authorization: '558219ab32e1c694714e787817ab8d92'
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NTgyMTlhYjMyZTFjNjk0NzE0ZTc4NzgxN2FiOGQ5MiIsInN1YiI6IjY2NTY2NzNkOTI2MWRhNTkzYTE5ZGU0YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z9v82T_2bMEZeKhwg-u5XcStvMdAmvV_x8eZgR0YCK4",
+          },
+        };
+
+        fetch(theURL, options)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+
+            res.results.map((mappedDataRes) => {
+              var myImage = mappedDataRes.poster_path;
+              var myTitle = mappedDataRes.title;
+              var myVote = mappedDataRes.vote_average;
+
+              document.getElementById(
+                "myDiv"
+              ).innerHTML += `<div class="movieHolder">
+                <img src="https://image.tmdb.org/t/p/original/${myImage}" alt="">
+                <h4>${myTitle}</h4>
+                <span>${myVote}</span>
+            </div>`;
+            });
+          });
+      }
+    </script>
+  </body>
+</html>
